@@ -11,6 +11,6 @@ Deepsnake 模型代码比较复杂，但是工业实用性不错，优化空间�
 
 Appreciate the great work from the following repositories:
   
-   zju3dv/snake 
+  [zju3dv/snake](https://github.com/zju3dv/snake)
    
    ultralytics/yolov5 
