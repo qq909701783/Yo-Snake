@@ -1,0 +1,28 @@
+ninja_required_version = 1.3
+cxx = c++
+nvcc = /usr/local/cuda/bin/nvcc
+
+cflags = -pthread -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC '-I/media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils' -I/usr/local/lib/python3.6/dist-packages/torch/include -I/usr/local/lib/python3.6/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/lib/python3.6/dist-packages/torch/include/TH -I/usr/local/lib/python3.6/dist-packages/torch/include/THC -I/usr/local/cuda/include -I/usr/include/python3.6m -c
+post_cflags = -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=_ext -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++14
+cuda_cflags = '-I/media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils' -I/usr/local/lib/python3.6/dist-packages/torch/include -I/usr/local/lib/python3.6/dist-packages/torch/include/torch/csrc/api/include -I/usr/local/lib/python3.6/dist-packages/torch/include/TH -I/usr/local/lib/python3.6/dist-packages/torch/include/THC -I/usr/local/cuda/include -I/usr/include/python3.6m -c
+cuda_post_cflags = -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=_ext -D_GLIBCXX_USE_CXX11_ABI=0 -gencode=arch=compute_61,code=sm_61 -std=c++14
+ldflags = 
+
+rule compile
+  command = $cxx -MMD -MF $out.d $cflags -c $in -o $out $post_cflags
+  depfile = $out.d
+  deps = gcc
+
+rule cuda_compile
+  command = $nvcc $cuda_cflags -c $in -o $out $cuda_post_cflags
+
+
+
+build /media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/build/temp.linux-x86_64-3.6/media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/utils.o: compile /media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/utils.cpp
+build /media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/build/temp.linux-x86_64-3.6/media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/src/utils.o: cuda_compile /media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/src/utils.cu
+build /media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/build/temp.linux-x86_64-3.6/media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/src/nms.o: cuda_compile /media/root/fc6cf683-9c07-46ff-a325-9115b0701844/root/LIKE/虹膜/Yo-Snake/models/csrc/extreme_utils/src/nms.cu
+
+
+
+
+
